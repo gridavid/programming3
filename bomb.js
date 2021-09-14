@@ -1,7 +1,7 @@
 class Bomb {
     constructor(x, y) {
-        this.x = x
-        this.y = y
+        this.x = x;
+        this.y = y; 
         this.timer = 10;
         this.directions = [
             [this.x - 1, this.y - 1],
