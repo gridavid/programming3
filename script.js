@@ -1,3 +1,13 @@
+console.log("Hello Node")
+
+var os = require("os");
+var message = "The platform is ";
+
+function main(){
+   console.log(message + os.platform());
+}
+main();
+
 var bardz = 20;
 var layn = 20;
 var grassCount = 20;
