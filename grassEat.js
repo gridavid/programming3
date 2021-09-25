@@ -3,8 +3,8 @@ class GrassEat extends LivingCreature {
         // this.x = x;
         // this.y = y;
         // this.multiply = 0;
-        super(x,y)
-        this.energy = 5;
+        super(x, y)
+        this.energy = 10;
         this.directions = [];
     }
     newDirections() {
@@ -34,6 +34,7 @@ class GrassEat extends LivingCreature {
         return found;
     }
     move() {
+        this.energy--;
         var foundCords = this.getDirections(0);
         var cord = random(foundCords);
 
@@ -47,6 +48,10 @@ class GrassEat extends LivingCreature {
             this.x = x;
             this.y = y;
 
+        }
+
+        if (this.energy < 3) {
+            this.die();
         }
     }
     eat() {
@@ -73,17 +78,14 @@ class GrassEat extends LivingCreature {
                 }
             }
 
-            if (this.multiply == 10) {
+            if (this.multiply >= 10) {
                 this.mul()
                 this.multiply = 0;
             }
 
         } else {
             this.move();
-            this.energy--;
-            if (this.energy < 3) {
-                this.die();
-            }
+
         }
     }
     mul() {

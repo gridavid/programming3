@@ -1,8 +1,6 @@
-class Predator {
+class Predator extends LivingCreature{
     constructor(x, y) {
-        this.x = x;
-        this.y = y;
-        this.multiply = 0;
+        super(x,y)
         this.energy = 5;
         this.directions = [];
     }

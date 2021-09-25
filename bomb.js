@@ -1,21 +1,13 @@
-class Bomb {
+class Bomb extends LivingCreature {
     constructor(x, y) {
-        this.x = x;
-        this.y = y; 
+        super(x, y)
         this.timer = 10;
-        this.directions = [
-            [this.x - 1, this.y - 1],
-            [this.x, this.y - 1],
-            [this.x + 1, this.y - 1],
+        this.foundCords = [];
+        this.directions.push(
             [this.x - 2, this.y - 1],
             [this.x + 2, this.y - 1],
-            [this.x - 1, this.y],
-            [this.x + 1, this.y],
             [this.x - 2, this.y],
             [this.x + 2, this.y],
-            [this.x - 1, this.y + 1],
-            [this.x, this.y + 1],
-            [this.x + 1, this.y + 1],
             [this.x - 2, this.y + 1],
             [this.x + 2, this.y + 1],
             [this.x - 1, this.y - 2],
@@ -28,7 +20,7 @@ class Bomb {
             [this.x + 1, this.y + 2],
             [this.x - 2, this.y + 2],
             [this.x + 2, this.y + 2]
-        ];
+        );
     }
     getDirections(t) {
         var found = [];
@@ -45,16 +37,17 @@ class Bomb {
     }
     explosion() {
         this.timer--
-        if (this.timer == 0) {
-            var foundCords = [];
-            for (var i = 0; i < 6; i++) {
+        if (this.timer <= 0) {
+            for (var i = 0; i <= 6; i++) {
                 var a = this.getDirections(i)
-                for(var i in a)
-                    foundCords.push(a[i])
+                for (var i in a) {
+                    this.foundCords.push(a[i])
+                }
+
             }
-            for (var i in foundCords) {
-                var deadX = foundCords[i][0]
-                var deadY = foundCords[i][1]
+            for (var i in this.foundCords) {
+                var deadX = this.foundCords[i][0]
+                var deadY = this.foundCords[i][1]
                 if (matrix[deadY][deadX] == 1) {
                     for (var i in grArr) {
                         if (deadX == grArr[i].x && deadY == grArr[i].y) {
