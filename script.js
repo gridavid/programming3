@@ -8,6 +8,8 @@ var predatorCount = 10;
 var bombCount = 2;
 var fireCount = 0;
 var sapCount = 6;
+var grs="green"
+var grsetr="yellow"
 
 var matrix = [];
 
