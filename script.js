@@ -1,19 +1,12 @@
 console.log("Hello Node")
 
-//var os = require("os");
-var message = "The platform is ";
-
-/*function main(){
-   console.log(message + os.platform());
-}
-main();*/
-
 var bardz = 40;
 var layn = 40;
 var grassCount = 20;
 var eatGrassCount = 30;
 var predatorCount = 10;
-//var bombCount = 2;
+var bombCount = 2;
+var fireCount = 0;
 var sapCount = 6;
 
 var matrix = [];
@@ -29,8 +22,9 @@ let side = 20;
 var grArr = [];
 var grEatArr = [];
 var predArr = [];
-//var bombArr = [];
+var bombArr = [];
 var sapArr = [];
+var fireArr = [];
 
 function setup() {
     for (var n = 0; n < grassCount; n++) {
@@ -54,19 +48,23 @@ function setup() {
             matrix[y][x] = 3;
         }
     }
-    /*for (var n = 0; n < bombCount; n++) {
+    for (var n = 0; n < bombCount; n++) {
         var x = Math.floor(random(0, layn));
         var y = Math.floor(random(0, bardz));
         if (matrix[y][x] == 0) {
             matrix[y][x] = 4;
         }
-    }*/
+    }
     for (var n = 0; n < sapCount; n++) {
         var x = Math.floor(random(0, layn));
         var y = Math.floor(random(0, bardz));
         if (matrix[y][x] == 0) {
             matrix[y][x] = 5;
         }
+    }
+    for (var n = 0; n < fireCount; n++) {
+        var x = Math.floor(random(0, layn))
+        var y = Math.floor(random(0, bardz))
     }
     frameRate(5);
     createCanvas(matrix[0].length * side, matrix.length * side);
@@ -82,13 +80,17 @@ function setup() {
             if (matrix[y][x] == 3) {
                 predArr.push(new Predator(x, y))
             }
-            /*if (matrix[y][x] == 4) {
+            if (matrix[y][x] == 4) {
                 bombArr.push(new Bomb(x, y))
-            }*/
+            }
             if (matrix[y][x] == 5) {
                 sapArr.push(new Sapper(x, y))
             }
+            if (matrix[y][x] == 7) {
+                fireArr.push(new fireArr(x, y))
+            }
         }
+
     }
 }
 
@@ -123,7 +125,7 @@ function draw() {
             matrix[maxY][maxX] = 2
         }
     }
-    /*while (bombArr.length < bombCount) {
+    while (bombArr.length < bombCount) {
         var maxX = random(0, matrix[1].length);
         maxX = Math.floor(maxX);
         var maxY = random(0, matrix.length);
@@ -141,7 +143,19 @@ function draw() {
             }
             matrix[maxY][maxX] = 4
         }
-    }*/
+    }
+    function burn() {
+        var maxX = random(0, matrix[1].length);
+        maxX = Math.floor(maxX);
+        var maxY = random(0, matrix.length);
+        maxY = Math.floor(maxY)
+        if (matrix[maxY][maxX] == 0) {
+            fireArr.push(new Fire(maxX, maxY))
+            matrix[maxY][maxX] = 2
+        }
+    }
+    var p = document.getElementById("burn");
+    p.addEventListener("click", burn);
     for (let y = 0; y < matrix.length; y++) {
         for (let x = 0; x < matrix[y].length; x++) {
             if (matrix[y][x] == 1) {
@@ -159,6 +173,9 @@ function draw() {
             else if (matrix[y][x] == 5) {
                 fill("blue")
             }
+            else if (matrix[y][x] == 7) {
+                fill("orange")
+            }
             else if (matrix[y][x] == 0) {
                 fill('#acacac')
             }
@@ -174,11 +191,14 @@ function draw() {
     for (var i in predArr) {
         predArr[i].eat()
     }
-    /*for (var i in bombArr) {
+    for (var i in bombArr) {
         bombArr[i].explosion()
-    }*/
+    }
     for (var i in sapArr) {
         sapArr[i].neutralization()
+    }
+    for (var i in fireArr) {
+        fireArr[i].eat()
     }
 
 }
