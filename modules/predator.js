@@ -1,4 +1,6 @@
 var LivingCreature = require("./livingCreature.js")
+var random = require("./random");
+
 module.exports=class Predator extends LivingCreature{
     constructor(x, y) {
         super(x,y)

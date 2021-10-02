@@ -1,77 +1,63 @@
-console.log("Hello Node")
-var Grass = require("./modules/grass.js")
-var GrassEat = require("./modules/grassEat.js")
-var Predator = require("./modules/predator.js")
-var Bomb = require("./modules/bomb.js")
-var Fire = require("./modules/fire.js")
-var Sapper = require("./modules/sapper.js")
-var bardz = 40;
-var layn = 40;
-var grassCount = 20;
-var eatGrassCount = 30;
-var predatorCount = 10;
-var bombCount = 2;
-var fireCount = 0;
-var sapCount = 6;
-var grs="#24d121"
-
-var matrix = [];
-
-for (var i = 0; i < bardz; i++) {
-    matrix.push([]);
-    for (var j = 0; j < layn; j++) {
-        matrix[i].push(0);
-    }
-}
-
-let side = 20;
-var grArr = [];
-var grEatArr = [];
-var predArr = [];
-var bombArr = [];
-var sapArr = [];
-var fireArr = [];
-
+var socket = io();
 function setup() {
-    for (var n = 0; n < grassCount; n++) {
-        var x = Math.floor(random(0, layn));
-        var y = Math.floor(random(0, bardz));
-        if (matrix[y][x] == 0) {
-            matrix[y][x] = 1;
+    
+
+    var side = 10;
+
+    var matrix = []
+
+    //! Getting DOM objects (HTML elements)
+    let grassCountElement = document.getElementById('grassCount');
+    let grassEaterCountElement = document.getElementById('grassEaterCount');
+
+    //! adding socket listener on "data" <-- name, after that fire 'drawCreatures' function 
+
+    socket.on("data", drawCreatures);
+
+    function drawCreatures(data) {
+        //! after getting data pass it to matrix variable
+        matrix = data.matrix;
+        //grassCountElement.innerText = data.grassCounter;
+        //! Every time it creates new Canvas woth new matrix size
+        createCanvas(matrix[0].length * side, matrix.length * side)
+        //! clearing background by setting it to new grey color
+        background('#acacac');
+        //! Draw grassCount and grassEaterCount to HTML (use DOM objects to update information, yes, and use .innerText <- function)
+
+        //! Drawing and coloring RECTs
+        for (var i = 0; i < matrix.length; i++) {
+            for (var j = 0; j < matrix[i].length; j++) {
+                if (matrix[i][j] == 1) {
+                    fill("green");
+                    rect(j * side, i * side, side, side);
+                } else if (matrix[i][j] == 2) {
+                    fill("yellow");
+                    rect(j * side, i * side, side, side);
+                } else if (matrix[i][j] == 0) {
+                    fill('#acacac');
+                    rect(j * side, i * side, side, side);
+                } else if (matrix[i][j] == 3) {
+                    fill('red');
+                    rect(j * side, i * side, side, side);
+                } else if (matrix[i][j] == 4) {
+                    fill('blue');
+                    rect(j * side, i * side, side, side);
+                } else if (matrix[i][j] == 5) {
+                    fill('white');
+                    rect(j * side, i * side, side, side);
+                }else if (matrix[i][j]==7){
+                    fill('orange')
+                    rect(j * side, i * side, side, side);
+                }
+            }
         }
     }
-    for (var n = 0; n < eatGrassCount; n++) {
-        var x = Math.floor(random(0, layn));
-        var y = Math.floor(random(0, bardz));
-        if (matrix[y][x] == 0) {
-            matrix[y][x] = 2;
-        }
+    /*Socket.on("data",getData())
+    function getData(data){
+        var Grass = data.Grass
     }
-    for (var n = 0; n < predatorCount; n++) {
-        var x = Math.floor(random(0, layn));
-        var y = Math.floor(random(0, bardz));
-        if (matrix[y][x] == 0) {
-            matrix[y][x] = 3;
-        }
-    }
-    /*for (var n = 0; n < bombCount; n++) {
-        var x = Math.floor(random(0, layn));
-        var y = Math.floor(random(0, bardz));
-        if (matrix[y][x] == 0) {
-            matrix[y][x] = 4;
-        }
-    }*/
-    for (var n = 0; n < sapCount; n++) {
-        var x = Math.floor(random(0, layn));
-        var y = Math.floor(random(0, bardz));
-        if (matrix[y][x] == 0) {
-            matrix[y][x] = 5;
-        }
-    }
-    for (var n = 0; n < fireCount; n++) {
-        var x = Math.floor(random(0, layn))
-        var y = Math.floor(random(0, bardz))
-    }
+    var socket = io()
+    
     frameRate(5);
     createCanvas(matrix[0].length * side, matrix.length * side);
     background('#acacac')
@@ -88,7 +74,7 @@ function setup() {
             }
             /*if (matrix[y][x] == 4) {
                 bombArr.push(new Bomb(x, y))
-            }*/
+            }*//*
             if (matrix[y][x] == 5) {
                 sapArr.push(new Sapper(x, y))
             }
@@ -97,74 +83,14 @@ function setup() {
             }
         }
 
-    }
+    }*/
 }
 
-function draw() {
-    while (grArr.length < 5) {
-        var maxX = random(0, matrix[1].length);
-        maxX = Math.floor(maxX);
-        var maxY = random(0, matrix.length);
-        maxY = Math.floor(maxY)
-        if (matrix[maxY][maxX] == 0) {
-            grArr.push(new Grass(maxX, maxY))
-            matrix[maxY][maxX] = 1
-        }
-    }
-    while (predArr.length < 4) {
-        var maxX = random(0, matrix[1].length);
-        maxX = Math.floor(maxX);
-        var maxY = random(0, matrix.length);
-        maxY = Math.floor(maxY)
-        if (matrix[maxY][maxX] == 0) {
-            predArr.push(new Predator(maxX, maxY))
-            matrix[maxY][maxX] = 3
-        }
-    }
-    while (grEatArr.length < 6) {
-        var maxX = random(0, matrix[1].length);
-        maxX = Math.floor(maxX);
-        var maxY = random(0, matrix.length);
-        maxY = Math.floor(maxY)
-        if (matrix[maxY][maxX] == 0) {
-            grEatArr.push(new GrassEat(maxX, maxY))
-            matrix[maxY][maxX] = 2
-        }
-    }
-    /*while (bombArr.length < bombCount) {
-        var maxX = random(0, matrix[1].length);
-        maxX = Math.floor(maxX);
-        var maxY = random(0, matrix.length);
-        maxY = Math.floor(maxY)
-        if (matrix[maxY][maxX] == 0) {
-            bombArr.push(new Bomb(maxX, maxY))
-            matrix[maxY][maxX] = 4
-        }
-        else if (matrix[maxY][maxX] == 1) {
-            bombArr.push(new Bomb(maxX, maxY))
-            for (var i in grArr) {
-                if (maxX == grArr[i].x && maxY == grArr[i].y) {
-                    grArr.splice(i, 1)
-                }
-            }
-            matrix[maxY][maxX] = 4
-        }
-    }*/
+/*function draw() {
+    
 
     //fire code
-    function burn() {
-        var maxX = random(0, matrix[1].length);
-        maxX = Math.floor(maxX);
-        var maxY = random(0, matrix.length);
-        maxY = Math.floor(maxY)
-        if (matrix[maxY][maxX] == 0) {
-            fireArr.push(new Fire(maxX, maxY))
-            matrix[maxY][maxX] = 2
-        }
-    }
-    var fre = document.getElementById("burn");
-    fre.addEventListener("click", burn);
-
+    
     //seasons code
     //spring
     function spring() {
@@ -221,23 +147,6 @@ function draw() {
             rect(x * side, y * side, side, side)
         }
     }
-    for (var i in grArr) {
-        grArr[i].mul()
-    }
-    for (var i in grEatArr) {
-        grEatArr[i].eat()
-    }
-    for (var i in predArr) {
-        predArr[i].eat()
-    }
-    /*for (var i in bombArr) {
-        bombArr[i].explosion()
-    }*/
-    for (var i in sapArr) {
-        sapArr[i].neutralization()
-    }
-    for (var i in fireArr) {
-        fireArr[i].eat()
-    }
+    
 
-}
+}*/

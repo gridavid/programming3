@@ -1,4 +1,6 @@
 var LivingCreature = require("./livingCreature.js")
+var random = require("./random");
+
 module.exports=class Fire extends LivingCreature {
     constructor(x, y) {
         // this.x = x;
