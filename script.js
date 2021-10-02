@@ -1,5 +1,10 @@
 console.log("Hello Node")
-
+var Grass = require("./modules/grass.js")
+var GrassEat = require("./modules/grassEat.js")
+var Predator = require("./modules/predator.js")
+var Bomb = require("./modules/bomb.js")
+var Fire = require("./modules/fire.js")
+var Sapper = require("./modules/sapper.js")
 var bardz = 40;
 var layn = 40;
 var grassCount = 20;
@@ -8,8 +13,7 @@ var predatorCount = 10;
 var bombCount = 2;
 var fireCount = 0;
 var sapCount = 6;
-var grs="green"
-var grsetr="yellow"
+var grs="#24d121"
 
 var matrix = [];
 
@@ -50,13 +54,13 @@ function setup() {
             matrix[y][x] = 3;
         }
     }
-    for (var n = 0; n < bombCount; n++) {
+    /*for (var n = 0; n < bombCount; n++) {
         var x = Math.floor(random(0, layn));
         var y = Math.floor(random(0, bardz));
         if (matrix[y][x] == 0) {
             matrix[y][x] = 4;
         }
-    }
+    }*/
     for (var n = 0; n < sapCount; n++) {
         var x = Math.floor(random(0, layn));
         var y = Math.floor(random(0, bardz));
@@ -82,9 +86,9 @@ function setup() {
             if (matrix[y][x] == 3) {
                 predArr.push(new Predator(x, y))
             }
-            if (matrix[y][x] == 4) {
+            /*if (matrix[y][x] == 4) {
                 bombArr.push(new Bomb(x, y))
-            }
+            }*/
             if (matrix[y][x] == 5) {
                 sapArr.push(new Sapper(x, y))
             }
@@ -127,7 +131,7 @@ function draw() {
             matrix[maxY][maxX] = 2
         }
     }
-    while (bombArr.length < bombCount) {
+    /*while (bombArr.length < bombCount) {
         var maxX = random(0, matrix[1].length);
         maxX = Math.floor(maxX);
         var maxY = random(0, matrix.length);
@@ -145,7 +149,9 @@ function draw() {
             }
             matrix[maxY][maxX] = 4
         }
-    }
+    }*/
+
+    //fire code
     function burn() {
         var maxX = random(0, matrix[1].length);
         maxX = Math.floor(maxX);
@@ -156,12 +162,43 @@ function draw() {
             matrix[maxY][maxX] = 2
         }
     }
-    var p = document.getElementById("burn");
-    p.addEventListener("click", burn);
+    var fre = document.getElementById("burn");
+    fre.addEventListener("click", burn);
+
+    //seasons code
+    //spring
+    function spring() {
+        grs="#24d121"
+    }
+    var spr = document.getElementById("spring");
+    spr.addEventListener("click", spring);
+
+    //summer
+    function summer() {
+        grs="#69f016"
+    }
+    var sum = document.getElementById("summer");
+    sum.addEventListener("click", summer);
+
+    //autumn
+    function autumn() {
+        grs = "#7cdb00"
+    }
+    var aut = document.getElementById("autumn");
+    aut.addEventListener("click", autumn);
+
+    //winter
+    function winter() {
+        grs = "#95f788"
+    }
+    var win = document.getElementById("winter");
+    win.addEventListener("click", winter);
+
+
     for (let y = 0; y < matrix.length; y++) {
         for (let x = 0; x < matrix[y].length; x++) {
             if (matrix[y][x] == 1) {
-                fill("green")
+                fill(grs)
             }
             else if (matrix[y][x] == 2) {
                 fill("yellow")
@@ -193,9 +230,9 @@ function draw() {
     for (var i in predArr) {
         predArr[i].eat()
     }
-    for (var i in bombArr) {
+    /*for (var i in bombArr) {
         bombArr[i].explosion()
-    }
+    }*/
     for (var i in sapArr) {
         sapArr[i].neutralization()
     }

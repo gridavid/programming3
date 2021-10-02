@@ -1,5 +1,5 @@
-
-class Sapper extends LivingCreature{
+var LivingCreature = require("./livingCreature.js")
+module.exports=class Sapper extends LivingCreature{
     constructor(x, y) {
         super(x,y)
         this.time = 0;

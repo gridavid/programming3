@@ -1,4 +1,5 @@
-class Bomb extends LivingCreature {
+var LivingCreature = require("./livingCreature.js")
+module.exports=class Bomb extends LivingCreature {
     constructor(x, y) {
         super(x, y)
         this.timer = 10;
