@@ -19,22 +19,8 @@ module.exports=class Sapper extends LivingCreature{
             [this.x + 1, this.y + 1]
         ];
     }
-    getDirections(t) {
-        this.newDirections();
-        var found = [];
-        for (var i in this.directions) {
-            var x = this.directions[i][0];
-            var y = this.directions[i][1];
-            if (x >= 0 && x < matrix[0].length && y >= 0 && y < matrix.length) {
-                if (matrix[y][x] == t) {
-                    found.push(this.directions[i]);
-                }
-            }
-        }
-        return found;
-    }
     move() {
-        var foundCords = this.getDirections(0);
+        var foundCords = this.chooseCell(0);
         var cord = random(foundCords);
 
         if (cord) {
@@ -50,7 +36,7 @@ module.exports=class Sapper extends LivingCreature{
         }
     }
     neutralization() {
-        var foundBombs = this.getDirections(4);
+        var foundBombs = this.chooseCell(4);
         var bomb = random(foundBombs);
 
         if (bomb) {

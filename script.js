@@ -1,14 +1,13 @@
-var socket = io();
 function setup() {
-    
+    var socket = io();
 
     var side = 10;
 
     var matrix = []
 
     //! Getting DOM objects (HTML elements)
-    let grassCountElement = document.getElementById('grassCount');
-    let grassEaterCountElement = document.getElementById('grassEaterCount');
+    //let grassCountElement = document.getElementById('grassCount');
+    //let grassEaterCountElement = document.getElementById('grassEaterCount');
 
     //! adding socket listener on "data" <-- name, after that fire 'drawCreatures' function 
 
@@ -40,10 +39,10 @@ function setup() {
                     fill('red');
                     rect(j * side, i * side, side, side);
                 } else if (matrix[i][j] == 4) {
-                    fill('blue');
+                    fill('white');
                     rect(j * side, i * side, side, side);
                 } else if (matrix[i][j] == 5) {
-                    fill('white');
+                    fill('blue');
                     rect(j * side, i * side, side, side);
                 }else if (matrix[i][j]==7){
                     fill('orange')

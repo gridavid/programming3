@@ -4,7 +4,7 @@ var random = require("./random");
 module.exports=class Bomb extends LivingCreature {
     constructor(x, y) {
         super(x, y)
-        this.timer = 10;
+        this.timer = 20;
         this.foundCords = [];
         this.directions.push(
             [this.x - 2, this.y - 1],
@@ -25,24 +25,11 @@ module.exports=class Bomb extends LivingCreature {
             [this.x + 2, this.y + 2]
         );
     }
-    getDirections(t) {
-        var found = [];
-        for (var i in this.directions) {
-            var altX = this.directions[i][0];
-            var altY = this.directions[i][1];
-            if (altX >= 0 && altX < matrix[0].length && altY >= 0 && altY < matrix.length) {
-                if (matrix[altY][altX] == t) {
-                    found.push(this.directions[i]);
-                }
-            }
-        }
-        return found;
-    }
     explosion() {
         this.timer--
         if (this.timer <= 0) {
             for (var i = 0; i <= 6; i++) {
-                var a = this.getDirections(i)
+                var a = this.chooseCell(i)
                 for (var i in a) {
                     this.foundCords.push(a[i])
                 }
