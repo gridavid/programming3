@@ -1,7 +1,7 @@
 var LivingCreature = require("./livingCreature.js")
 var random = require("./random");
 
-module.exports=class Bomb extends LivingCreature {
+module.exports = class Bomb extends LivingCreature {
     constructor(x, y) {
         super(x, y)
         this.timer = 20;
@@ -30,17 +30,19 @@ module.exports=class Bomb extends LivingCreature {
         if (this.timer < 0) {
             for (var i = 0; i <= 7; i++) {
                 var a = this.chooseCell(i)
+                
                 for (var i = 0; i < a.length; i++) {
+                    console.log(a[i]);
                     this.foundCords.push(a[i])
                 }
             }
-            for (var i = 0; i < this.foundCords.length; i++) {
+            for (var i = 0;i < this.foundCords.length; i++) {
                 var deadX = this.foundCords[i][0]
                 var deadY = this.foundCords[i][1]
                 if (matrix[deadY][deadX] == 1) {
-                    for (var i = 0; i < grArr.length; i++) {
-                        if (deadX == grArr[i].x && deadY == grArr[i].y) {
-                            grArr.splice(i, 1);
+                    for (var l = 0; l < grArr.length; l++) {
+                        if (deadX == grArr[l].x && deadY == grArr[l].y) {
+                            grArr.splice(l, 1);
                         }
                     }
                 }
