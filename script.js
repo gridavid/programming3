@@ -1,9 +1,10 @@
 function setup() {
     var socket = io();
 
-    var side = 10;
+    var side = 20;
 
-    var matrix = []
+    var matrix = [];
+    grs = "green";
 
     //! Getting DOM objects (HTML elements)
     //let grassCountElement = document.getElementById('grassCount');
@@ -22,12 +23,19 @@ function setup() {
         //! clearing background by setting it to new grey color
         background('#acacac');
         //! Draw grassCount and grassEaterCount to HTML (use DOM objects to update information, yes, and use .innerText <- function)
-
+        document.getElementById("grass").innerText = data.grassC;
+        document.getElementById("grassEater").innerText = data.grassEatC;
+        document.getElementById("predator").innerText = data.predC;
+        document.getElementById("bomb").innerText = data.bombC;
+        document.getElementById("timer").innerText = data.bombT;
+        document.getElementById("sapper").innerText = data.sapperC;
+        document.getElementById("sapTimer").innerText = data.sapT;
+        
         //! Drawing and coloring RECTs
         for (var i = 0; i < matrix.length; i++) {
             for (var j = 0; j < matrix[i].length; j++) {
                 if (matrix[i][j] == 1) {
-                    fill("green");
+                    fill(grs);
                     rect(j * side, i * side, side, side);
                 } else if (matrix[i][j] == 2) {
                     fill("yellow");
@@ -51,47 +59,6 @@ function setup() {
             }
         }
     }
-    /*Socket.on("data",getData())
-    function getData(data){
-        var Grass = data.Grass
-    }
-    var socket = io()
-    
-    frameRate(5);
-    createCanvas(matrix[0].length * side, matrix.length * side);
-    background('#acacac')
-    for (let y = 0; y < matrix.length; y++) {
-        for (let x = 0; x < matrix[y].length; x++) {
-            if (matrix[y][x] == 1) {
-                grArr.push(new Grass(x, y))
-            }
-            if (matrix[y][x] == 2) {
-                grEatArr.push(new GrassEat(x, y))
-            }
-            if (matrix[y][x] == 3) {
-                predArr.push(new Predator(x, y))
-            }
-            /*if (matrix[y][x] == 4) {
-                bombArr.push(new Bomb(x, y))
-            }*//*
-            if (matrix[y][x] == 5) {
-                sapArr.push(new Sapper(x, y))
-            }
-            if (matrix[y][x] == 7) {
-                fireArr.push(new fireArr(x, y))
-            }
-        }
-
-    }*/
-}
-
-/*function draw() {
-    
-
-    //fire code
-    
-    //seasons code
-    //spring
     function spring() {
         grs="#24d121"
     }
@@ -118,34 +85,4 @@ function setup() {
     }
     var win = document.getElementById("winter");
     win.addEventListener("click", winter);
-
-
-    for (let y = 0; y < matrix.length; y++) {
-        for (let x = 0; x < matrix[y].length; x++) {
-            if (matrix[y][x] == 1) {
-                fill(grs)
-            }
-            else if (matrix[y][x] == 2) {
-                fill("yellow")
-            }
-            else if (matrix[y][x] == 3) {
-                fill("red")
-            }
-            else if (matrix[y][x] == 4) {
-                fill("white")
-            }
-            else if (matrix[y][x] == 5) {
-                fill("blue")
-            }
-            else if (matrix[y][x] == 7) {
-                fill("orange")
-            }
-            else if (matrix[y][x] == 0) {
-                fill('#acacac')
-            }
-            rect(x * side, y * side, side, side)
-        }
-    }
-    
-
-}*/
+}

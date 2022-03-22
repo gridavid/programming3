@@ -13,11 +13,13 @@ bombArr=[]
 sapArr=[]
 fireArr=[]
 
+var maxX = 0;
+var maxY = 0;
 var size = 30;
 var grassCount = 10;
 var eatGrassCount = 20;
 var predatorCount = 10;
-var bombCount = 2;
+var bombCount = 1;
 var sapCount = 6;
 
  matrix = [];
@@ -136,25 +138,8 @@ function creatingObjects() {
           matrix[maxY][maxX] = 2
       }
   }*/
-  /*while (bombArr.length < bombCount) {
-      var maxX = random(0, matrix[1].length);
-      maxX = Math.floor(maxX);
-      var maxY = random(0, matrix.length);
-      maxY = Math.floor(maxY)
-      if (matrix[maxY][maxX] == 0) {
-          bombArr.push(new Bomb(maxX, maxY))
-          matrix[maxY][maxX] = 4
-      }
-      else if (matrix[maxY][maxX] == 1) {
-          bombArr.push(new Bomb(maxX, maxY))
-          for (var i in grArr) {
-              if (maxX == grArr[i].x && maxY == grArr[i].y) {
-                  grArr.splice(i, 1)
-              }
-          }
-          matrix[maxY][maxX] = 4
-      }
-  }*/
+
+
 creatingObjects();
 
 function burn() {
@@ -193,20 +178,37 @@ function game (){
             bombArr[i].explosion()
         }
     }
-    if(sapArr[0] !== undefined){
-        for (var i in sapArr) {
-            sapArr[i].neutralization()
-        }
-    }
+    // if(sapArr[0] !== undefined){
+    //     for (var i in sapArr) {
+    //         sapArr[i].neutralization()
+    //     }
+    // }
     if(fireArr[0] !== undefined){
         for (var i in fireArr) {
             fireArr[i].eat()
         }
     }
-
+//     while (grArr.length > 120 && bombArr.length < 1) {
+    
+//         maxX = Math.floor(random(0, matrix[1].length));
+   
+//         maxY = Math.floor(random(0, matrix.length));
+    
+//        if (matrix[maxY][maxX] == 0) {
+//            bombArr.push(new Bomb(maxX, maxY));
+//            matrix[maxY][maxX] = 4;
+//        }
+//    }
+   
     let sendData = {
         matrix: matrix,
-        grassCounter: grArr.length
+        grassC: grArr.length,
+        grassEatC: grEatArr.length,
+        predC: predArr.length,
+        bombC: bombArr.length,
+        bombT: bombArr[0].timer,
+        sapperC: sapArr.length,
+        sapT: sapArr[0].time
     }
 
     //! Send data over the socket to clients who listens "data"
