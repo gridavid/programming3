@@ -27,9 +27,9 @@ function setup() {
         document.getElementById("grassEater").innerText = data.grassEatC;
         document.getElementById("predator").innerText = data.predC;
         document.getElementById("bomb").innerText = data.bombC;
-        document.getElementById("timer").innerText = data.bombT;
+        //document.getElementById("timer").innerText = data.bombT;
         document.getElementById("sapper").innerText = data.sapperC;
-        document.getElementById("sapTimer").innerText = data.sapT;
+        //document.getElementById("sapTimer").innerText = data.sapT;
         
         //! Drawing and coloring RECTs
         for (var i = 0; i < matrix.length; i++) {
@@ -47,7 +47,7 @@ function setup() {
                     fill('red');
                     rect(j * side, i * side, side, side);
                 } else if (matrix[i][j] == 4) {
-                    fill('white');
+                    fill('black');
                     rect(j * side, i * side, side, side);
                 } else if (matrix[i][j] == 5) {
                     fill('blue');

@@ -41,13 +41,14 @@ module.exports=class Sapper extends LivingCreature{
 
         if (bomb) {
             this.time++
-            if (this.time == 5) {
+            if (this.time >= 5) {
                 var x = bomb[0];
                 var y = bomb[1];
 
-                matrix[y][x] = 0;
+                
                 for (var i in bombArr) {
                     if (x == bombArr[i].x && y == bombArr[i].y) {
+                        matrix[y][x] = 0;
                         bombArr.splice(i, 1)
                     }
                 }
