@@ -30,37 +30,37 @@ function matrixGenerator(matrixSize, grass, grassEat, predator, bomb, sapper) {
             matrix[y][x] = 0;
         }
     }
-    for (var n = 0; n < grass; n++) {
-        var x = Math.floor(random(matrixSize));
-        var y = Math.floor(random(matrixSize));
+    for (let n = 0; n < grass; n++) {
+        let x = Math.floor(random(matrixSize));
+        let y = Math.floor(random(matrixSize));
         if (matrix[y][x] == 0) {
             matrix[y][x] = 1;
         }
     }
-    for (var n = 0; n < grassEat; n++) {
-        var x = Math.floor(random(matrixSize));
-        var y = Math.floor(random(matrixSize));
+    for (let n = 0; n < grassEat; n++) {
+        let x = Math.floor(random(matrixSize));
+        let y = Math.floor(random(matrixSize));
         if (matrix[y][x] == 0) {
             matrix[y][x] = 2;
         }
     }
-    for (var n = 0; n < predator; n++) {
-        var x = Math.floor(random(matrixSize));
-        var y = Math.floor(random(matrixSize));
+    for (let n = 0; n < predator; n++) {
+        let x = Math.floor(random(matrixSize));
+        let y = Math.floor(random(matrixSize));
         if (matrix[y][x] == 0) {
             matrix[y][x] = 3;
         }
     }
-    for (var n = 0; n < bomb; n++) {
-        var x = Math.floor(random(matrixSize));
-        var y = Math.floor(random(matrixSize));
+    for (let n = 0; n < bomb; n++) {
+        let x = Math.floor(random(matrixSize));
+        let y = Math.floor(random(matrixSize));
         if (matrix[y][x] == 0) {
             matrix[y][x] = 4;
         }
     }
-    for (var n = 0; n < sapper; n++) {
-        var x = Math.floor(random(matrixSize));
-        var y = Math.floor(random(matrixSize));
+    for (let n = 0; n < sapper; n++) {
+        let x = Math.floor(random(matrixSize));
+        let y = Math.floor(random(matrixSize));
         if (matrix[y][x] == 0) {
             matrix[y][x] = 5;
         }
@@ -103,54 +103,91 @@ function creatingObjects() {
     }
 }
 
+//actions with buttons 
+io.on('connection', function (socket) {
+    creatingObjects();
+    socket.on("kill", kill);
+    socket.on("season", season);
+    socket.on("burn", burn);
 
 
-//--------- I should check this out later ---------
+});
 
-/*while (grArr.length < 5) {
-   let maxX = Math.floor(random(matrix[1].length));
-   let maxY = Math.floor(random(matrix.length));
-
-   if (matrix[maxY][maxX] == 0) {
-       grArr.push(new Grass(maxX, maxY))
-       matrix[maxY][maxX] = 1
-   }
-}
-while (predArr.length < 4) {
-   let maxX = Math.floor(random(matrix[1].length));
-   let maxY = Math.floor(random(matrix.length));
-   if (matrix[maxY][maxX] == 0) {
-       predArr.push(new Predator(maxX, maxY))
-       matrix[maxY][maxX] = 3
-   }
-}
-while (grEatArr.length < 6) {
-   let maxX = Math.floor(random(matrix[1].length));
-   let maxY = Math.floor(random(matrix.length));
-   if (matrix[maxY][maxX] == 0) {
-       grEatArr.push(new GrassEat(maxX, maxY))
-       matrix[maxY][maxX] = 2
-   }
-}*/
-
-
-creatingObjects();
-
-function burn() {
-    let maxX = Math.floor(random(matrix[1].length));
-    let maxY = Math.floor(random(matrix.length));
-
-    if (matrix[maxY][maxX] == 0) {
-        fireArr.push(new Fire(maxX, maxY))
-        matrix[maxY][maxX] = 2
+function season(num) {
+    if (num == 1) {
+        //console.log("spring")
+        for (let i = 0; i < grArr.length; i++) {
+            grArr[i].mulK = 1;
+        }
+    }
+    else if (num == 2) {
+        //console.log("summer")
+        for (let i = 0; i < grArr.length; i++) {
+            grArr[i].mulK = 2;
+        }
+    }
+    else if (num == 3) {
+        //console.log("autumn")
+        for (let i = 0; i < grArr.length; i++) {
+            grArr[i].mulK = 4;
+        }
+    }
+    else if (num == 4) {
+        //console.log("winter")
+        for (let i = 0; i < grArr.length; i++) {
+            grArr[i].mulK = 12;
+        }
     }
 }
 
-//var fre = document.getElementById("burn");
-//fre.addEventListener("click", burn);
+//kills all the creatures on the matrix
+function kill() {
+    for (let i = 0; i < grArr.length; i++) {
+        matrix[grArr[i].y][grArr[i].x] = 0;
+    }
+    grArr = [];
+    for (let i = 0; i < grEatArr.length; i++) {
+        matrix[grEatArr[i].y][grEatArr[i].x] = 0;
+    }
+    grEatArr = [];
+    for (let i = 0; i < predArr.length; i++) {
+        matrix[predArr[i].y][predArr[i].x] = 0;
+    }
+    predArr = [];
+    for (let i = 0; i < bombArr.length; i++) {
+        matrix[bombArr[i].y][bombArr[i].x] = 0;
+    }
+    bombArr = [];
+    for (let i = 0; i < sapArr.length; i++) {
+        matrix[sapArr[i].y][sapArr[i].x] = 0;
+    }
+    sapArr = [];
+    for (let i = 0; i < fireArr.length; i++) {
+        matrix[fireArr[i].y][fireArr[i].x] = 0;
+    }
+    fireArr = [];
+}
 
+function burn() {
+    while (fireArr.length < 1) {
+        let maxX = Math.floor(random(matrix[1].length));
+        let maxY = Math.floor(random(matrix.length));
+
+        if (matrix[maxY][maxX] == 1) {
+            fireArr.push(new Fire(maxX, maxY))
+            for (let i = 0; i < grArr.length; i++) {
+                if (grArr[i].x == maxX && grArr[i].y == maxY) {
+                    grArr.splice(i, 1);
+                    break;
+                }
+            }
+            matrix[maxY][maxX] = 2
+        }
+    }
+}
 
 function game() {
+
     if (grArr[0] !== undefined) {
         for (var i in grArr) {
             grArr[i].mul()
@@ -181,6 +218,7 @@ function game() {
             fireArr[i].eat()
         }
     }
+    //bomb generator
     while (grArr.length > 120 && bombArr.length < 2) {
 
         let maxX = Math.floor(random(matrix[1].length));
@@ -191,6 +229,51 @@ function game() {
             matrix[maxY][maxX] = 4;
         }
     }
+    //grass
+    while (grArr.length < 2) {
+
+        let maxX = Math.floor(random(matrix[1].length));
+        let maxY = Math.floor(random(matrix.length));
+
+        if (matrix[maxY][maxX] == 0) {
+            grArr.push(new Grass(maxX, maxY));
+            matrix[maxY][maxX] = 1;
+        }
+    }
+    //grass eater
+    while (grEatArr.length < 2) {
+
+        let maxX = Math.floor(random(matrix[1].length));
+        let maxY = Math.floor(random(matrix.length));
+
+        if (matrix[maxY][maxX] == 0) {
+            grEatArr.push(new GrassEat(maxX, maxY));
+            matrix[maxY][maxX] = 2;
+        }
+    }
+    //predator
+    while (predArr.length < 2 && grEatArr.length > 6) {
+
+        let maxX = Math.floor(random(matrix[1].length));
+        let maxY = Math.floor(random(matrix.length));
+
+        if (matrix[maxY][maxX] == 0) {
+            predArr.push(new Predator(maxX, maxY));
+            matrix[maxY][maxX] = 3;
+        }
+    }
+    //sapper
+    while (sapArr.length < 1) {
+
+        let maxX = Math.floor(random(matrix[1].length));
+        let maxY = Math.floor(random(matrix.length));
+
+        if (matrix[maxY][maxX] == 0) {
+            sapArr.push(new Sapper(maxX, maxY));
+            matrix[maxY][maxX] = 5;
+        }
+    }
+
 
     let sendData = {
         matrix: matrix,

@@ -3,12 +3,10 @@ var random = require("./random");
 
 module.exports=class GrassEat extends LivingCreature {
     constructor(x, y) {
-        // this.x = x;
-        // this.y = y;
-        // this.multiply = 0;
         super(x, y)
         this.energy = 10;
         this.directions = [];
+        this.mulK=10;
     }
     newDirections() {
         this.directions = [
@@ -67,7 +65,7 @@ module.exports=class GrassEat extends LivingCreature {
                 }
             }
 
-            if (this.multiply >= 10) {
+            if (this.multiply >= this.mulK) {
                 this.mul()
                 this.multiply = 0;
             }

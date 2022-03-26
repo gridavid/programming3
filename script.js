@@ -61,6 +61,7 @@ function setup() {
     }
     function spring() {
         grs="#24d121"
+        socket.emit("season", 1)
     }
     var spr = document.getElementById("spring");
     spr.addEventListener("click", spring);
@@ -68,6 +69,7 @@ function setup() {
     //summer
     function summer() {
         grs="#69f016"
+        socket.emit("season", 2)
     }
     var sum = document.getElementById("summer");
     sum.addEventListener("click", summer);
@@ -75,6 +77,7 @@ function setup() {
     //autumn
     function autumn() {
         grs = "#7cdb00"
+        socket.emit("season", 3)
     }
     var aut = document.getElementById("autumn");
     aut.addEventListener("click", autumn);
@@ -82,7 +85,24 @@ function setup() {
     //winter
     function winter() {
         grs = "#95f788"
+        socket.emit("season", 4)
     }
+    
+
+    
     var win = document.getElementById("winter");
     win.addEventListener("click", winter);
+    
+    var fire = document.getElementById("burn");   
+    fire.addEventListener("click", burn);
+    function burn(){
+        socket.emit("burn")
+    }
+    
+    var kill = document.getElementById("kill");
+    kill.addEventListener("click", killClick);
+    function killClick(){
+        socket.emit("kill")
+    }
 }
+

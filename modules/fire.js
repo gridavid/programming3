@@ -1,11 +1,8 @@
 var LivingCreature = require("./livingCreature.js")
 var random = require("./random");
 
-module.exports=class Fire extends LivingCreature {
+module.exports = class Fire extends LivingCreature {
     constructor(x, y) {
-        // this.x = x;
-        // this.y = y;
-        // this.multiply = 0;
         super(x, y)
         this.energy = 5;
         this.directions = [];
@@ -38,7 +35,7 @@ module.exports=class Fire extends LivingCreature {
 
             this.energy++;
 
-            for (var i in grArr) {
+            for (let i in grArr) {
                 if (x == grArr[i].x && y == grArr[i].y) {
                     grArr.splice(i, 1);
                 }
@@ -46,11 +43,11 @@ module.exports=class Fire extends LivingCreature {
 
             this.mul()
         }
-        else{
+        else {
             this.energy--
         }
 
-        if (this.energy<=0){
+        if (this.energy <= 0) {
             this.die()
         }
     }
@@ -62,17 +59,15 @@ module.exports=class Fire extends LivingCreature {
             var x = cord[0];
             var y = cord[1];
 
-            var newFire = new Fire(x, y, this.index);
-            fireArr.push(newFire);
+            fireArr.push(new Fire(x, y));
 
             matrix[y][x] = 7;
-            this.multiply = 0;
         }
     }
     die() {
         matrix[this.y][this.x] = 0;
 
-        for (var i in fireArr) {
+        for (let i in fireArr) {
             if (this.x == fireArr[i].x && this.y == fireArr[i].y) {
                 fireArr.splice(i, 1);
             }

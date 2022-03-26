@@ -1,11 +1,12 @@
 var LivingCreature = require("./livingCreature.js")
 var random = require("./random");
 
-module.exports=class Predator extends LivingCreature{
+module.exports = class Predator extends LivingCreature {
     constructor(x, y) {
-        super(x,y)
+        super(x, y)
         this.energy = 5;
         this.directions = [];
+        this.mulK = 4;
     }
     newDirections() {
         this.directions = [
@@ -43,7 +44,7 @@ module.exports=class Predator extends LivingCreature{
                 }
             }
 
-            if (this.multiply == 4) {
+            if (this.multiply >= this.mulK) {
                 this.mul()
                 this.multiply = 0;
             }
