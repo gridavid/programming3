@@ -21,6 +21,16 @@ var predatorCount = 10;
 var bombCount = 1;
 var sapCount = 6;
 
+
+var mulG = 2;
+var mulGE = 10;
+var mulP = 4;
+var mulB = 20;
+var mulS = 5;
+var mulF = 5;
+
+var predMul = true;
+
 matrix = [];
 
 function matrixGenerator(matrixSize, grass, grassEat, predator, bomb, sapper) {
@@ -82,22 +92,22 @@ function creatingObjects() {
     for (let y = 0; y < matrix.length; y++) {
         for (let x = 0; x < matrix[y].length; x++) {
             if (matrix[y][x] == 1) {
-                grArr.push(new Grass(x, y))
+                grArr.push(new Grass(x, y, mulG))
             }
             if (matrix[y][x] == 2) {
-                grEatArr.push(new GrassEat(x, y))
+                grEatArr.push(new GrassEat(x, y, mulGE))
             }
             if (matrix[y][x] == 3) {
-                predArr.push(new Predator(x, y))
+                predArr.push(new Predator(x, y, mulP))
             }
             if (matrix[y][x] == 4) {
-                bombArr.push(new Bomb(x, y))
+                bombArr.push(new Bomb(x, y, mulB))
             }
             if (matrix[y][x] == 5) {
-                sapArr.push(new Sapper(x, y))
+                sapArr.push(new Sapper(x, y, mulS))
             }
             if (matrix[y][x] == 7) {
-                fireArr.push(new Fire(x, y))
+                fireArr.push(new Fire(x, y, mulF))
             }
         }
     }
@@ -115,28 +125,96 @@ io.on('connection', function (socket) {
 
 function season(num) {
     if (num == 1) {
-        //console.log("spring")
+        //grass in spring
         for (let i = 0; i < grArr.length; i++) {
             grArr[i].mulK = 1;
         }
+        mulG = 1;
+        //grasseater in spring
+        for (let i = 0; i < grEatArr.length; i++) {
+            grEatArr[i].mulK = 7;
+        }
+        mulGE = 7;
+        //predator in spring
+        predMul = true;
+        for (let i = 0; i < predArr.length; i++) {
+            predArr[i].mulK = 3;
+        }
+        mulP = 3;
     }
     else if (num == 2) {
-        //console.log("summer")
+        //grass in summer
         for (let i = 0; i < grArr.length; i++) {
             grArr[i].mulK = 2;
         }
+        mulG = 2;
+        //grasseater in summer
+        for (let i = 0; i < grEatArr.length; i++) {
+            grEatArr[i].mulK = 10;
+        }
+        mulGE = 10;
+        //predator in summer
+        predMul = true;
+        for (let i = 0; i < predArr.length; i++) {
+            predArr[i].mulK = 4;
+        }
+        mulP = 4;
+
+
     }
     else if (num == 3) {
-        //console.log("autumn")
+        //grass in autumn
         for (let i = 0; i < grArr.length; i++) {
-            grArr[i].mulK = 4;
+            grArr[i].mulK = 6;
+        }
+        mulG = 6;
+
+        //grasseater in autumn
+        for (let i = 0; i < grEatArr.length; i++) {
+            grEatArr[i].mulK = 16;
+        }
+        mulGE = 16;
+        //predator in autumn
+        predMul = true;
+        for (let i = 0; i < predArr.length; i++) {
+            predArr[i].mulK = 8;
+        }
+        mulP = 8;
+        //bomb in autumn
+        for(let i = 0; i<bombArr.length;i++){
+            bombArr[i].explosion()
         }
     }
     else if (num == 4) {
-        //console.log("winter")
+
+        //grass in winter
         for (let i = 0; i < grArr.length; i++) {
-            grArr[i].mulK = 12;
+            grArr[i].mulK = 16;
         }
+        mulG = 16;
+
+        //grasseater in winter
+        for (let i = 0; i < grEatArr.length; i++) {
+            grEatArr[i].mulK = 1000;
+        }
+        mulGE = 1000;
+        //predator in winter
+        for (let i = 0; i < predArr.length; i++) {
+            predArr[i].die()
+        }
+        predMul = false;
+        //bomb in winter
+        mulB = 1000;
+        //sapper in winter
+        for (let i = 0; i < sapArr.length; i++) {
+            matrix[sapArr[i].y][sapArr[i].x] = 0;
+        }
+        sapArr = [];
+        //fire in winter
+        for (let i = 0; i < fireArr.length; i++) {
+            matrix[fireArr[i].y][fireArr[i].x] = 0;
+        }
+        fireArr = [];   
     }
 }
 
@@ -169,12 +247,12 @@ function kill() {
 }
 
 function burn() {
-    while (fireArr.length < 1) {
+    while (fireArr.length < 1 && predMul == true) {
         let maxX = Math.floor(random(matrix[1].length));
         let maxY = Math.floor(random(matrix.length));
 
         if (matrix[maxY][maxX] == 1) {
-            fireArr.push(new Fire(maxX, maxY))
+            fireArr.push(new Fire(maxX, maxY, mulF))
             for (let i = 0; i < grArr.length; i++) {
                 if (grArr[i].x == maxX && grArr[i].y == maxY) {
                     grArr.splice(i, 1);
@@ -225,7 +303,7 @@ function game() {
         let maxY = Math.floor(random(matrix.length));
 
         if (matrix[maxY][maxX] == 0) {
-            bombArr.push(new Bomb(maxX, maxY));
+            bombArr.push(new Bomb(maxX, maxY, mulB));
             matrix[maxY][maxX] = 4;
         }
     }
@@ -236,7 +314,7 @@ function game() {
         let maxY = Math.floor(random(matrix.length));
 
         if (matrix[maxY][maxX] == 0) {
-            grArr.push(new Grass(maxX, maxY));
+            grArr.push(new Grass(maxX, maxY, mulG));
             matrix[maxY][maxX] = 1;
         }
     }
@@ -247,34 +325,32 @@ function game() {
         let maxY = Math.floor(random(matrix.length));
 
         if (matrix[maxY][maxX] == 0) {
-            grEatArr.push(new GrassEat(maxX, maxY));
+            grEatArr.push(new GrassEat(maxX, maxY, mulGE));
             matrix[maxY][maxX] = 2;
         }
     }
     //predator
-    while (predArr.length < 2 && grEatArr.length > 6) {
+    while (predArr.length < 2 && grEatArr.length > 6 && predMul == true) {
 
         let maxX = Math.floor(random(matrix[1].length));
         let maxY = Math.floor(random(matrix.length));
 
         if (matrix[maxY][maxX] == 0) {
-            predArr.push(new Predator(maxX, maxY));
+            predArr.push(new Predator(maxX, maxY, mulP));
             matrix[maxY][maxX] = 3;
         }
     }
     //sapper
-    while (sapArr.length < 1) {
+    while (sapArr.length < 1 && predMul == true) {
 
         let maxX = Math.floor(random(matrix[1].length));
         let maxY = Math.floor(random(matrix.length));
 
         if (matrix[maxY][maxX] == 0) {
-            sapArr.push(new Sapper(maxX, maxY));
+            sapArr.push(new Sapper(maxX, maxY, mulS));
             matrix[maxY][maxX] = 5;
         }
     }
-
-
     let sendData = {
         matrix: matrix,
         grassC: grArr.length,

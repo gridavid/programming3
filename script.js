@@ -88,8 +88,6 @@ function setup() {
         socket.emit("season", 4)
     }
     
-
-    
     var win = document.getElementById("winter");
     win.addEventListener("click", winter);
     

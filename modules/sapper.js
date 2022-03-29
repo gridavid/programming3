@@ -2,9 +2,8 @@ var LivingCreature = require("./livingCreature.js")
 var random = require("./random");
 
 module.exports=class Sapper extends LivingCreature{
-    constructor(x, y) {
-        super(x,y)
-        this.time = 0;
+    constructor(x, y, mulK) {
+        super(x,y, mulK)
         this.directions = [];
     }
     newDirections() {
@@ -40,8 +39,8 @@ module.exports=class Sapper extends LivingCreature{
         var bomb = random(foundBombs);
 
         if (bomb) {
-            this.time++
-            if (this.time >= 5) {
+            this.multiply++
+            if (this.multiply >= this.mulK) {
                 var x = bomb[0];
                 var y = bomb[1];
 
@@ -49,10 +48,10 @@ module.exports=class Sapper extends LivingCreature{
                 for (var i in bombArr) {
                     if (x == bombArr[i].x && y == bombArr[i].y) {
                         matrix[y][x] = 0;
-                        bombArr.splice(i, 1)
+                        bombArr.splice(i, 1);
                     }
                 }
-                this.time = 0
+                this.multiply = 0;
             }
         }
         else {

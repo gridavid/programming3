@@ -2,9 +2,8 @@ var LivingCreature = require("./livingCreature.js")
 var random = require("./random");
 
 module.exports = class Bomb extends LivingCreature {
-    constructor(x, y) {
-        super(x, y)
-        this.timer = 20;
+    constructor(x, y, mulK) {
+        super(x, y, mulK)
         this.foundCords = [];
         this.directions.push(
             [this.x - 2, this.y - 1],
@@ -83,8 +82,8 @@ module.exports = class Bomb extends LivingCreature {
         }
     }
     wait() {
-        this.timer--
-        if (this.timer < 0) {
+        this.mulK--
+        if (this.mulK < 0) {
             this.explosion()
         }
     }

@@ -2,11 +2,10 @@ var LivingCreature = require("./livingCreature.js")
 var random = require("./random");
 
 module.exports=class GrassEat extends LivingCreature {
-    constructor(x, y) {
-        super(x, y)
+    constructor(x, y, mulK) {
+        super(x, y, mulK)
         this.energy = 10;
         this.directions = [];
-        this.mulK=10;
     }
     newDirections() {
         this.directions = [
@@ -85,7 +84,7 @@ module.exports=class GrassEat extends LivingCreature {
 
             this.multiply++;
 
-            var newGrassEater = new GrassEat(x, y, this.index);
+            var newGrassEater = new GrassEat(x, y, this.mulK);
             grEatArr.push(newGrassEater);
 
             matrix[y][x] = 2;
