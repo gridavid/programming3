@@ -352,7 +352,7 @@ function game() {
     }
   }
   //sapper
-  while (sapArr.length < 1 && predMul == true) {
+  while (sapArr.length < 3 && predMul == true) {
     let maxX = Math.floor(random(matrix[1].length));
     let maxY = Math.floor(random(matrix.length));
 
