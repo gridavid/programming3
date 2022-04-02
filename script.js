@@ -4,13 +4,13 @@ function setup() {
     var side = 20;
 
     var matrix = [];
-    grs = "green";
+    grs = "#69f016";
 
     //! Getting DOM objects (HTML elements)
     //let grassCountElement = document.getElementById('grassCount');
     //let grassEaterCountElement = document.getElementById('grassEaterCount');
 
-    //! adding socket listener on "data" <-- name, after that fire 'drawCreatures' function 
+    //! adding socket listener on "data" <-- name, after that fire 'drawCreatures' function
 
     socket.on("data", drawCreatures);
 
@@ -23,14 +23,8 @@ function setup() {
         //! clearing background by setting it to new grey color
         background('#acacac');
         //! Draw grassCount and grassEaterCount to HTML (use DOM objects to update information, yes, and use .innerText <- function)
-        document.getElementById("grass").innerText = data.grassC;
-        document.getElementById("grassEater").innerText = data.grassEatC;
-        document.getElementById("predator").innerText = data.predC;
-        document.getElementById("bomb").innerText = data.bombC;
-        //document.getElementById("timer").innerText = data.bombT;
-        document.getElementById("sapper").innerText = data.sapperC;
-        //document.getElementById("sapTimer").innerText = data.sapT;
-        
+        document.getElementById("season").innerText = data.season;
+
         //! Drawing and coloring RECTs
         for (var i = 0; i < matrix.length; i++) {
             for (var j = 0; j < matrix[i].length; j++) {
@@ -87,20 +81,19 @@ function setup() {
         grs = "#95f788"
         socket.emit("season", 4)
     }
-    
+
     var win = document.getElementById("winter");
     win.addEventListener("click", winter);
-    
-    var fire = document.getElementById("burn");   
+
+    var fire = document.getElementById("burn");
     fire.addEventListener("click", burn);
     function burn(){
         socket.emit("burn")
     }
-    
+
     var kill = document.getElementById("kill");
     kill.addEventListener("click", killClick);
     function killClick(){
         socket.emit("kill")
     }
 }
-

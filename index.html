@@ -1,45 +1,26 @@
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
 
-<head>
-   <meta charset="UTF-8">
-   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-   <title>Document</title>
-</head>
-
-<body style="text-align: center">
-   <button id="burn" style="margin-right: 24px">Burn the grass</button>
-   <button id="kill" style="margin-right: 24px">kill them all</button>
-   <button id="spring">Spring</button>
-   <button id="summer">Summer</button>
-   <button id="autumn">Autumn</button>
-   <button id="winter">Winter</button>
-
-   <script src="p5.js"></script>
-   <script src="/socket.io/socket.io.js"></script>
-   <script src="script.js"></script>
-   <br>
-   <table border="1" style="margin-left: auto; margin-right: auto;">
-      <tr>
-         <td>grass</td>
-         <td>grass eaters</td>
-         <td>predator</td>
-         <td>bomb</td>
-         <td>bomb timer</td>
-         <td>sapper</td>
-         <td>sapper timer</td>
-      </tr>
-      <tr>
-         <td id="grass"></td>
-         <td id="grassEater"></td>
-         <td id="predator"></td>
-         <td id="bomb"></td>
-         <td id="timer"></td>
-         <td id="sapper"></td>
-         <td id="sapTimer"></td>
-      </tr>
-   </table>
-</body>
-
+  <body style="text-align: center">
+    <div>
+      <h1>The season now is:</h1>
+      <h1 id="season"></h1>
+    </div>  
+    <button id="burn" style="margin-right: 24px">Burn the grass</button>
+    <button id="kill" style="margin-right: 24px">kill them all</button>
+    <button id="spring">Spring</button>
+    <button id="summer">Summer</button>
+    <button id="autumn">Autumn</button>
+    <button id="winter" style="margin-bottom: 8px">Winter</button>
+    <br />
+    <script src="p5.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="script.js"></script>
+  </body>
 </html>
